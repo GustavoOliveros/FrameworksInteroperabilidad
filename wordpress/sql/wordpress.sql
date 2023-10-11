@@ -16,27 +16,25 @@
 
 
 -- Volcando estructura de base de datos para wordpress
-DROP DATABASE IF EXISTS `wordpress`;
 CREATE DATABASE IF NOT EXISTS `wordpress` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `wordpress`;
 
 -- Volcando estructura para tabla wordpress.wp_actionscheduler_actions
-DROP TABLE IF EXISTS `wp_actionscheduler_actions`;
 CREATE TABLE IF NOT EXISTS `wp_actionscheduler_actions` (
   `action_id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `hook` varchar(191) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `hook` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `scheduled_date_gmt` datetime DEFAULT '0000-00-00 00:00:00',
   `scheduled_date_local` datetime DEFAULT '0000-00-00 00:00:00',
   `priority` tinyint unsigned NOT NULL DEFAULT '10',
-  `args` varchar(191) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
-  `schedule` longtext COLLATE utf8mb4_unicode_520_ci,
+  `args` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `schedule` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   `group_id` bigint unsigned NOT NULL DEFAULT '0',
   `attempts` int NOT NULL DEFAULT '0',
   `last_attempt_gmt` datetime DEFAULT '0000-00-00 00:00:00',
   `last_attempt_local` datetime DEFAULT '0000-00-00 00:00:00',
   `claim_id` bigint unsigned NOT NULL DEFAULT '0',
-  `extended_args` varchar(8000) COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
+  `extended_args` varchar(8000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci DEFAULT NULL,
   PRIMARY KEY (`action_id`),
   KEY `hook` (`hook`),
   KEY `status` (`status`),
@@ -54,36 +52,33 @@ REPLACE INTO `wp_actionscheduler_actions` (`action_id`, `hook`, `status`, `sched
 	(449, 'wp_mail_smtp_admin_notifications_update', 'pending', '2023-10-12 05:01:27', '2023-10-12 02:01:27', 10, '[1]', 'O:32:"ActionScheduler_IntervalSchedule":5:{s:22:"\0*\0scheduled_timestamp";i:1697086887;s:18:"\0*\0first_timestamp";i:1697000456;s:13:"\0*\0recurrence";i:86400;s:49:"\0ActionScheduler_IntervalSchedule\0start_timestamp";i:1697086887;s:53:"\0ActionScheduler_IntervalSchedule\0interval_in_seconds";i:86400;}', 2, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, NULL);
 
 -- Volcando estructura para tabla wordpress.wp_actionscheduler_claims
-DROP TABLE IF EXISTS `wp_actionscheduler_claims`;
 CREATE TABLE IF NOT EXISTS `wp_actionscheduler_claims` (
   `claim_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `date_created_gmt` datetime DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`claim_id`),
   KEY `date_created_gmt` (`date_created_gmt`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 -- Volcando datos para la tabla wordpress.wp_actionscheduler_claims: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_actionscheduler_groups
-DROP TABLE IF EXISTS `wp_actionscheduler_groups`;
 CREATE TABLE IF NOT EXISTS `wp_actionscheduler_groups` (
   `group_id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   PRIMARY KEY (`group_id`),
   KEY `slug` (`slug`(191))
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
--- Volcando datos para la tabla wordpress.wp_actionscheduler_groups: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla wordpress.wp_actionscheduler_groups: ~0 rows (aproximadamente)
 REPLACE INTO `wp_actionscheduler_groups` (`group_id`, `slug`) VALUES
 	(1, 'action-scheduler-migration'),
 	(2, 'wp_mail_smtp');
 
 -- Volcando estructura para tabla wordpress.wp_actionscheduler_logs
-DROP TABLE IF EXISTS `wp_actionscheduler_logs`;
 CREATE TABLE IF NOT EXISTS `wp_actionscheduler_logs` (
   `log_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `action_id` bigint unsigned NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `log_date_gmt` datetime DEFAULT '0000-00-00 00:00:00',
   `log_date_local` datetime DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`log_id`),
@@ -91,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `wp_actionscheduler_logs` (
   KEY `log_date_gmt` (`log_date_gmt`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
--- Volcando datos para la tabla wordpress.wp_actionscheduler_logs: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla wordpress.wp_actionscheduler_logs: ~6 rows (aproximadamente)
 REPLACE INTO `wp_actionscheduler_logs` (`log_id`, `action_id`, `message`, `log_date_gmt`, `log_date_local`) VALUES
 	(1, 447, 'action created', '2023-10-11 04:58:27', '2023-10-11 01:58:27'),
 	(2, 447, 'action started via WP Cron', '2023-10-11 04:59:37', '2023-10-11 01:59:37'),
@@ -102,7 +97,6 @@ REPLACE INTO `wp_actionscheduler_logs` (`log_id`, `action_id`, `message`, `log_d
 	(7, 449, 'action created', '2023-10-11 05:01:27', '2023-10-11 02:01:27');
 
 -- Volcando estructura para tabla wordpress.wp_commentmeta
-DROP TABLE IF EXISTS `wp_commentmeta`;
 CREATE TABLE IF NOT EXISTS `wp_commentmeta` (
   `meta_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `comment_id` bigint unsigned NOT NULL DEFAULT '0',
@@ -116,7 +110,6 @@ CREATE TABLE IF NOT EXISTS `wp_commentmeta` (
 -- Volcando datos para la tabla wordpress.wp_commentmeta: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_comments
-DROP TABLE IF EXISTS `wp_comments`;
 CREATE TABLE IF NOT EXISTS `wp_comments` (
   `comment_ID` bigint unsigned NOT NULL AUTO_INCREMENT,
   `comment_post_ID` bigint unsigned NOT NULL DEFAULT '0',
@@ -144,7 +137,6 @@ CREATE TABLE IF NOT EXISTS `wp_comments` (
 -- Volcando datos para la tabla wordpress.wp_comments: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_links
-DROP TABLE IF EXISTS `wp_links`;
 CREATE TABLE IF NOT EXISTS `wp_links` (
   `link_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `link_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
@@ -166,31 +158,30 @@ CREATE TABLE IF NOT EXISTS `wp_links` (
 -- Volcando datos para la tabla wordpress.wp_links: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_newsletter
-DROP TABLE IF EXISTS `wp_newsletter`;
 CREATE TABLE IF NOT EXISTS `wp_newsletter` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `name` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `token` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `language` varchar(10) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `status` varchar(1) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'S',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `token` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `language` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'S',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` int NOT NULL DEFAULT '0',
   `last_activity` int NOT NULL DEFAULT '0',
-  `surname` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `sex` char(1) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'n',
+  `surname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `sex` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'n',
   `feed_time` bigint NOT NULL DEFAULT '0',
   `feed` tinyint NOT NULL DEFAULT '0',
-  `referrer` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `ip` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `referrer` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   `wp_user_id` int NOT NULL DEFAULT '0',
-  `source` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `http_referer` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `source` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `http_referer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   `geo` tinyint NOT NULL DEFAULT '0',
-  `country` varchar(4) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `region` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `city` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `bounce_type` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `country` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `region` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `bounce_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   `bounce_time` int NOT NULL DEFAULT '0',
   `unsub_email_id` int NOT NULL DEFAULT '0',
   `unsub_time` int NOT NULL DEFAULT '0',
@@ -234,26 +225,26 @@ CREATE TABLE IF NOT EXISTS `wp_newsletter` (
   `list_38` tinyint NOT NULL DEFAULT '0',
   `list_39` tinyint NOT NULL DEFAULT '0',
   `list_40` tinyint NOT NULL DEFAULT '0',
-  `profile_1` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_2` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_3` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_4` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_5` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_6` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_7` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_8` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_9` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_10` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_11` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_12` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_13` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_14` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_15` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_16` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_17` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_18` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_19` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `profile_20` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_9` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_10` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_11` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_12` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_13` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_14` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_15` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_16` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_17` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_18` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_19` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `profile_20` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   `test` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
@@ -267,32 +258,31 @@ REPLACE INTO `wp_newsletter` (`id`, `email`, `name`, `token`, `language`, `statu
 	(3, 'deimoss2018@gmail.com', '', '07a88ba7c7', '', 'C', '2023-10-11 05:36:52', 1697002612, 0, '', 'n', 0, 0, '', '::1', 0, '', '', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0);
 
 -- Volcando estructura para tabla wordpress.wp_newsletter_emails
-DROP TABLE IF EXISTS `wp_newsletter_emails`;
 CREATE TABLE IF NOT EXISTS `wp_newsletter_emails` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `language` varchar(10) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `subject` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `message` longtext COLLATE utf8mb4_unicode_520_ci,
+  `language` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `message` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('new','sending','sent','paused','error') COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'new',
+  `status` enum('new','sending','sent','paused','error') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT 'new',
   `total` int NOT NULL DEFAULT '0',
   `last_id` int NOT NULL DEFAULT '0',
   `sent` int NOT NULL DEFAULT '0',
   `track` int NOT NULL DEFAULT '1',
   `list` int NOT NULL DEFAULT '0',
-  `type` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `query` longtext COLLATE utf8mb4_unicode_520_ci,
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `query` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   `editor` tinyint NOT NULL DEFAULT '0',
-  `sex` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `theme` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `message_text` longtext COLLATE utf8mb4_unicode_520_ci,
-  `preferences` longtext COLLATE utf8mb4_unicode_520_ci,
+  `sex` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `theme` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `message_text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
+  `preferences` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   `send_on` int NOT NULL DEFAULT '0',
-  `token` varchar(10) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `options` longtext COLLATE utf8mb4_unicode_520_ci,
+  `token` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   `private` tinyint(1) NOT NULL DEFAULT '0',
   `click_count` int unsigned NOT NULL DEFAULT '0',
-  `version` varchar(10) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `version` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   `open_count` int unsigned NOT NULL DEFAULT '0',
   `unsub_count` int unsigned NOT NULL DEFAULT '0',
   `error_count` int unsigned NOT NULL DEFAULT '0',
@@ -304,15 +294,14 @@ CREATE TABLE IF NOT EXISTS `wp_newsletter_emails` (
 -- Volcando datos para la tabla wordpress.wp_newsletter_emails: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_newsletter_sent
-DROP TABLE IF EXISTS `wp_newsletter_sent`;
 CREATE TABLE IF NOT EXISTS `wp_newsletter_sent` (
   `email_id` int unsigned NOT NULL DEFAULT '0',
   `user_id` int unsigned NOT NULL DEFAULT '0',
   `status` tinyint unsigned NOT NULL DEFAULT '0',
   `open` tinyint unsigned NOT NULL DEFAULT '0',
   `time` int unsigned NOT NULL DEFAULT '0',
-  `error` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `ip` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `error` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`email_id`,`user_id`),
   KEY `user_id` (`user_id`),
   KEY `email_id` (`email_id`)
@@ -321,14 +310,13 @@ CREATE TABLE IF NOT EXISTS `wp_newsletter_sent` (
 -- Volcando datos para la tabla wordpress.wp_newsletter_sent: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_newsletter_stats
-DROP TABLE IF EXISTS `wp_newsletter_stats`;
 CREATE TABLE IF NOT EXISTS `wp_newsletter_stats` (
   `id` int NOT NULL AUTO_INCREMENT,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `url` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   `user_id` int NOT NULL DEFAULT '0',
-  `email_id` varchar(10) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '0',
-  `ip` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `email_id` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '0',
+  `ip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `email_id` (`email_id`),
   KEY `user_id` (`user_id`)
@@ -337,29 +325,27 @@ CREATE TABLE IF NOT EXISTS `wp_newsletter_stats` (
 -- Volcando datos para la tabla wordpress.wp_newsletter_stats: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_newsletter_user_logs
-DROP TABLE IF EXISTS `wp_newsletter_user_logs`;
 CREATE TABLE IF NOT EXISTS `wp_newsletter_user_logs` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL DEFAULT '0',
-  `ip` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `source` varchar(50) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `data` longtext COLLATE utf8mb4_unicode_520_ci,
+  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `source` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   `created` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
--- Volcando datos para la tabla wordpress.wp_newsletter_user_logs: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla wordpress.wp_newsletter_user_logs: ~0 rows (aproximadamente)
 REPLACE INTO `wp_newsletter_user_logs` (`id`, `user_id`, `ip`, `source`, `data`, `created`) VALUES
 	(1, 2, '::1', 'subscribe', '{"status":"C"}', 1697002532),
 	(2, 3, '::1', 'subscribe', '{"status":"C"}', 1697002612);
 
 -- Volcando estructura para tabla wordpress.wp_newsletter_user_meta
-DROP TABLE IF EXISTS `wp_newsletter_user_meta`;
 CREATE TABLE IF NOT EXISTS `wp_newsletter_user_meta` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL DEFAULT '0',
-  `meta_key` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
-  `value` longtext COLLATE utf8mb4_unicode_520_ci,
+  `meta_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
+  `value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
@@ -367,7 +353,6 @@ CREATE TABLE IF NOT EXISTS `wp_newsletter_user_meta` (
 -- Volcando datos para la tabla wordpress.wp_newsletter_user_meta: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_options
-DROP TABLE IF EXISTS `wp_options`;
 CREATE TABLE IF NOT EXISTS `wp_options` (
   `option_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `option_name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
@@ -376,9 +361,9 @@ CREATE TABLE IF NOT EXISTS `wp_options` (
   PRIMARY KEY (`option_id`),
   UNIQUE KEY `option_name` (`option_name`),
   KEY `autoload` (`autoload`)
-) ENGINE=InnoDB AUTO_INCREMENT=1030 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1050 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
--- Volcando datos para la tabla wordpress.wp_options: ~312 rows (aproximadamente)
+-- Volcando datos para la tabla wordpress.wp_options: ~306 rows (aproximadamente)
 REPLACE INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
 	(1, 'siteurl', 'http://localhost/FrameworksInteroperabilidad/wordpress', 'yes'),
 	(2, 'home', 'http://localhost/FrameworksInteroperabilidad/wordpress', 'yes'),
@@ -485,7 +470,7 @@ REPLACE INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload
 	(103, 'user_count', '1', 'no'),
 	(104, 'widget_block', 'a:13:{i:2;a:1:{s:7:"content";s:19:"<!-- wp:search /-->";}i:3;a:1:{s:7:"content";s:160:"<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>Entradas recientes</h2><!-- /wp:heading --><!-- wp:latest-posts /--></div><!-- /wp:group -->";}i:4;a:1:{s:7:"content";s:233:"<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>Comentarios recientes</h2><!-- /wp:heading --><!-- wp:latest-comments {"displayAvatar":false,"displayDate":false,"displayExcerpt":false} /--></div><!-- /wp:group -->";}i:5;a:1:{s:7:"content";s:146:"<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>Archivos</h2><!-- /wp:heading --><!-- wp:archives /--></div><!-- /wp:group -->";}i:6;a:1:{s:7:"content";s:151:"<!-- wp:group --><div class="wp-block-group"><!-- wp:heading --><h2>Categorías</h2><!-- /wp:heading --><!-- wp:categories /--></div><!-- /wp:group -->";}s:12:"_multiwidget";i:1;i:8;a:1:{s:7:"content";s:90:"<!-- wp:social-links -->\n<ul class="wp-block-social-links"></ul>\n<!-- /wp:social-links -->";}i:9;a:1:{s:7:"content";s:186:"<!-- wp:social-links {"size":"has-huge-icon-size"} -->\n<ul class="wp-block-social-links has-huge-icon-size"><!-- wp:social-link {"service":"facebook"} /--></ul>\n<!-- /wp:social-links -->";}i:11;a:1:{s:7:"content";s:136:"<!-- wp:social-links -->\n<ul class="wp-block-social-links"><!-- wp:social-link {"service":"twitter"} /--></ul>\n<!-- /wp:social-links -->";}i:12;a:1:{s:7:"content";s:357:"<!-- wp:widget-group -->\n<h2 class="widget-title"></h2><div class="wp-widget-group__inner-blocks"><!-- wp:social-links -->\n<ul class="wp-block-social-links"><!-- wp:social-link {"service":"github"} /--></ul>\n<!-- /wp:social-links -->\n\n<!-- wp:social-links -->\n<ul class="wp-block-social-links"></ul>\n<!-- /wp:social-links --></div>\n<!-- /wp:widget-group -->";}i:13;a:1:{s:7:"content";s:455:"<!-- wp:widget-group -->\n<h2 class="widget-title"></h2><div class="wp-widget-group__inner-blocks"><!-- wp:social-links {"iconBackgroundColor":{},"align":"center","className":"is-style-pill-shape"} -->\n<ul class="wp-block-social-links aligncenter is-style-pill-shape"><!-- wp:social-link {"service":"facebook","label":"aaaaa","rel":"https://pixelied.com/convert/svg-converter/svg-to-png"} /--></ul>\n<!-- /wp:social-links --></div>\n<!-- /wp:widget-group -->";}i:15;a:1:{s:7:"content";s:966:"<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center","orientation":"horizontal"},"style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->\n<div class="wp-block-buttons" style="margin-top:0;margin-bottom:0"><!-- wp:button {"textColor":"ast-global-color-5","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}},"border":{"width":"1px"},"color":{"background":"#18181b"}},"className":"is-style-fill"} -->\n<div class="wp-block-button is-style-fill"><a class="wp-block-button__link has-ast-global-color-5-color has-text-color has-background wp-element-button" style="border-width:1px;background-color:#18181b;padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">Iniciar sesión</a></div>\n<!-- /wp:button -->\n\n<!-- wp:button -->\n<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Registrarse</a></div>\n<!-- /wp:button --></div>\n<!-- /wp:buttons -->";}i:16;a:1:{s:7:"content";s:77:"<!-- wp:buttons -->\n<div class="wp-block-buttons"></div>\n<!-- /wp:buttons -->";}}', 'yes'),
 	(105, 'sidebars_widgets', 'a:7:{s:19:"wp_inactive_widgets";a:4:{i:0;s:7:"block-8";i:1;s:7:"block-9";i:2;s:8:"block-11";i:3;s:8:"block-12";}s:9:"sidebar-1";a:5:{i:0;s:7:"block-2";i:1;s:7:"block-3";i:2;s:7:"block-4";i:3;s:7:"block-5";i:4;s:7:"block-6";}s:13:"header-widget";a:0:{}s:15:"footer-widget-1";a:1:{i:0;s:8:"block-13";}s:15:"footer-widget-2";a:0:{}s:13:"array_version";i:3;s:15:"header-widget-1";a:1:{i:0;s:8:"block-15";}}', 'yes'),
-	(106, 'cron', 'a:13:{i:1697003605;a:1:{s:26:"action_scheduler_run_queue";a:1:{s:32:"0d04ed39571b55704c122d726248bbac";a:3:{s:8:"schedule";s:12:"every_minute";s:4:"args";a:1:{i:0;s:7:"WP Cron";}s:8:"interval";i:60;}}}i:1697003743;a:1:{s:10:"newsletter";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"newsletter";s:4:"args";a:0:{}s:8:"interval";i:300;}}}i:1697005422;a:1:{s:34:"wp_privacy_delete_old_export_files";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"hourly";s:4:"args";a:0:{}s:8:"interval";i:3600;}}}i:1697027022;a:4:{s:18:"wp_https_detection";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1697027043;a:1:{s:21:"wp_update_user_counts";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1697070222;a:1:{s:32:"recovery_mode_clean_expired_keys";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1697070243;a:2:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}s:25:"delete_expired_transients";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1697070244;a:1:{s:30:"wp_scheduled_auto_draft_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1697243022;a:1:{s:30:"wp_site_health_scheduled_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}i:1697315150;a:1:{s:30:"wp_delete_temp_updater_backups";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}i:1697320832;a:1:{s:29:"seedprod_lite_fetch_help_docs";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}i:1697330880;a:1:{s:29:"astra_get_knowledge_base_data";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}s:7:"version";i:2;}', 'yes'),
+	(106, 'cron', 'a:13:{i:1697004445;a:1:{s:26:"action_scheduler_run_queue";a:1:{s:32:"0d04ed39571b55704c122d726248bbac";a:3:{s:8:"schedule";s:12:"every_minute";s:4:"args";a:1:{i:0;s:7:"WP Cron";}s:8:"interval";i:60;}}}i:1697004643;a:1:{s:10:"newsletter";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"newsletter";s:4:"args";a:0:{}s:8:"interval";i:300;}}}i:1697005422;a:1:{s:34:"wp_privacy_delete_old_export_files";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"hourly";s:4:"args";a:0:{}s:8:"interval";i:3600;}}}i:1697027022;a:4:{s:18:"wp_https_detection";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1697027043;a:1:{s:21:"wp_update_user_counts";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1697070222;a:1:{s:32:"recovery_mode_clean_expired_keys";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1697070243;a:2:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}s:25:"delete_expired_transients";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1697070244;a:1:{s:30:"wp_scheduled_auto_draft_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1697243022;a:1:{s:30:"wp_site_health_scheduled_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}i:1697315150;a:1:{s:30:"wp_delete_temp_updater_backups";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}i:1697320832;a:1:{s:29:"seedprod_lite_fetch_help_docs";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}i:1697330880;a:1:{s:29:"astra_get_knowledge_base_data";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"weekly";s:4:"args";a:0:{}s:8:"interval";i:604800;}}}s:7:"version";i:2;}', 'yes'),
 	(107, 'widget_pages', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 	(108, 'widget_calendar', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 	(109, 'widget_archives', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
@@ -648,7 +633,7 @@ REPLACE INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload
 	(885, 'wp_mail_smtp_activated', 'a:1:{s:4:"lite";i:1697000305;}', 'yes'),
 	(886, '_transient_timeout_wp_mail_smtp_just_activated', '1697000365', 'no'),
 	(887, '_transient_wp_mail_smtp_just_activated', '1', 'no'),
-	(890, 'action_scheduler_lock_async-request-runner', '1697003552', 'yes'),
+	(890, 'action_scheduler_lock_async-request-runner', '1697004455', 'yes'),
 	(891, '_transient_timeout_as-post-store-dependencies-met', '1697086707', 'no'),
 	(892, '_transient_as-post-store-dependencies-met', 'yes', 'no'),
 	(894, 'wp_mail_smtp_migration_version', '5', 'yes'),
@@ -667,7 +652,7 @@ REPLACE INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload
 	(908, 'widget_newsletterwidget', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 	(909, 'widget_newsletterwidgetminimal', 'a:1:{s:12:"_multiwidget";i:1;}', 'yes'),
 	(912, 'newsletter_main', 'a:16:{s:12:"sender_email";s:16:"gusa05@gmail.com";s:11:"sender_name";s:4:"Kite";s:4:"page";s:3:"191";s:12:"contract_key";s:0:"";s:11:"return_path";b:0;s:8:"reply_to";b:0;s:13:"scheduler_max";i:100;s:5:"track";s:1:"1";s:13:"do_shortcodes";s:1:"1";s:9:"log_level";s:1:"0";s:12:"css_disabled";s:1:"0";s:3:"css";s:0:"";s:2:"ip";s:0:"";s:5:"debug";s:1:"0";s:25:"content_transfer_encoding";s:0:"";s:5:"roles";a:0:{}}', 'yes'),
-	(914, 'newsletter_diagnostic_cron_calls', 'a:57:{i:0;i:1697000437;i:1;i:1697000445;i:2;i:1697000486;i:3;i:1697000546;i:4;i:1697000613;i:5;i:1697000667;i:6;i:1697000744;i:7;i:1697000790;i:8;i:1697000892;i:9;i:1697000928;i:10;i:1697000993;i:11;i:1697001030;i:12;i:1697001045;i:13;i:1697001100;i:14;i:1697001153;i:15;i:1697001327;i:16;i:1697001346;i:17;i:1697001422;i:18;i:1697001450;i:19;i:1697001450;i:20;i:1697001540;i:21;i:1697001600;i:22;i:1697001661;i:23;i:1697001720;i:24;i:1697001787;i:25;i:1697001891;i:26;i:1697001950;i:27;i:1697002011;i:28;i:1697002068;i:29;i:1697002114;i:30;i:1697002192;i:31;i:1697002246;i:32;i:1697002311;i:33;i:1697002372;i:34;i:1697002414;i:35;i:1697002474;i:36;i:1697002536;i:37;i:1697002551;i:38;i:1697002592;i:39;i:1697002646;i:40;i:1697002751;i:41;i:1697002767;i:42;i:1697002826;i:43;i:1697002874;i:44;i:1697002886;i:45;i:1697002946;i:46;i:1697003006;i:47;i:1697003067;i:48;i:1697003132;i:49;i:1697003188;i:50;i:1697003249;i:51;i:1697003310;i:52;i:1697003405;i:53;i:1697003431;i:54;i:1697003491;i:55;i:1697003492;i:56;i:1697003551;}', 'no'),
+	(914, 'newsletter_diagnostic_cron_calls', 'a:68:{i:0;i:1697000437;i:1;i:1697000445;i:2;i:1697000486;i:3;i:1697000546;i:4;i:1697000613;i:5;i:1697000667;i:6;i:1697000744;i:7;i:1697000790;i:8;i:1697000892;i:9;i:1697000928;i:10;i:1697000993;i:11;i:1697001030;i:12;i:1697001045;i:13;i:1697001100;i:14;i:1697001153;i:15;i:1697001327;i:16;i:1697001346;i:17;i:1697001422;i:18;i:1697001450;i:19;i:1697001450;i:20;i:1697001540;i:21;i:1697001600;i:22;i:1697001661;i:23;i:1697001720;i:24;i:1697001787;i:25;i:1697001891;i:26;i:1697001950;i:27;i:1697002011;i:28;i:1697002068;i:29;i:1697002114;i:30;i:1697002192;i:31;i:1697002246;i:32;i:1697002311;i:33;i:1697002372;i:34;i:1697002414;i:35;i:1697002474;i:36;i:1697002536;i:37;i:1697002551;i:38;i:1697002592;i:39;i:1697002646;i:40;i:1697002751;i:41;i:1697002767;i:42;i:1697002826;i:43;i:1697002874;i:44;i:1697002886;i:45;i:1697002946;i:46;i:1697003006;i:47;i:1697003067;i:48;i:1697003132;i:49;i:1697003188;i:50;i:1697003249;i:51;i:1697003310;i:52;i:1697003405;i:53;i:1697003431;i:54;i:1697003491;i:55;i:1697003492;i:56;i:1697003551;i:57;i:1697003887;i:58;i:1697004016;i:59;i:1697004032;i:60;i:1697004046;i:61;i:1697004113;i:62;i:1697004152;i:63;i:1697004232;i:64;i:1697004273;i:65;i:1697004336;i:66;i:1697004353;i:67;i:1697004395;}', 'no'),
 	(915, 'newsletter_form', 'a:20:{s:5:"email";s:0:"";s:11:"name_status";s:1:"0";s:4:"name";s:0:"";s:10:"name_rules";s:1:"0";s:14:"surname_status";s:1:"0";s:7:"surname";s:0:"";s:13:"surname_rules";s:1:"0";s:10:"sex_status";s:1:"0";s:3:"sex";s:0:"";s:9:"sex_rules";s:1:"0";s:8:"sex_none";s:0:"";s:10:"sex_female";s:0:"";s:8:"sex_male";s:0:"";s:10:"title_none";s:0:"";s:12:"title_female";s:0:"";s:10:"title_male";s:0:"";s:9:"subscribe";s:11:"Suscribirse";s:14:"privacy_status";s:1:"2";s:7:"privacy";s:51:"Al suscribirte, aceptas lo términos y condiciones.";s:11:"privacy_url";s:0:"";}', 'yes'),
 	(919, '_transient_timeout_newsletter_user_count', '1697086868', 'no'),
 	(920, '_transient_newsletter_user_count', '1', 'no'),
@@ -693,10 +678,11 @@ REPLACE INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload
 	(1004, '_transient_tnp_extensions_json', '[{"id":"73","children_fileid":"","category":"subscription","version":"1.3.5","title":"WP Users Integration","description":"Connects the WordPress user registration with Newsletter subscription. Optionally imports all WP users as subscribers.","slug":"newsletter-wpusers","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/wpusers-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2023\\/03\\/wpusers-32x32-1.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=73","wp_slug":"newsletter-wpusers\\/wpusers.php"},{"id":"87","children_fileid":"","category":"legacy","version":"1.0.5","title":"Speed and Delivery Hours Control","description":"Configure a different delivery speed for each newsletter and the delivery hours window. Only for regular newsletters.","slug":"newsletter-speedcontrol","type":"legacy","url":"https:\\/\\/www.thenewsletterplugin.com\\/account","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2018\\/12\\/speedcontrol.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=87","wp_slug":"newsletter-speedcontrol\\/speedcontrol.php"},{"id":"61","children_fileid":"","category":"subscription","version":"4.3.3","title":"Contact Form 7 Connect","description":"Collect subscribers with your Contact Form 7 plugin.","slug":"newsletter-cf7","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/contact-form-7-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/users-32px-outline_badge-13.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=61","wp_slug":"newsletter-cf7\\/cf7.php"},{"id":"101","children_fileid":"","category":"subscription","version":"1.0.8","title":"Gravity Forms Connect","description":"Collect subscribers with your Gravity Forms plugin.","slug":"newsletter-gravityforms","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/gravityforms-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/04\\/gravityforms.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=101","wp_slug":"newsletter-gravityforms\\/gravityforms.php"},{"id":"83","children_fileid":"","category":"subscription","version":"1.1.1","title":"Ninja Forms Connect","description":"Integrate Ninja Forms with Newsletter collecting subscription from your contact form.","slug":"newsletter-ninjaforms","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/ninjaforms-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/08\\/ninjaforms.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=83","wp_slug":"newsletter-ninjaforms\\/ninjaforms.php"},{"id":"84","children_fileid":"","category":"subscription","version":"1.1.8","title":"WP Forms Connect","description":"Collect subscribers with your WP Forms plugin.","slug":"newsletter-wpforms","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/wpforms-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/08\\/wpforms.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=84","wp_slug":"newsletter-wpforms\\/wpforms.php"},{"id":"99","children_fileid":"","category":"subscription","version":"1.0.9","title":"Elementor Forms Addon","description":"Integrates Elementor forms with Newsletter to collect subscription by forms created with Elementor.","slug":"newsletter-elementor","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/elementor-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/04\\/elementor.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=99","wp_slug":"newsletter-elementor\\/elementor.php"},{"id":"104","children_fileid":"","category":"subscription","version":"1.1.0","title":"Form Designer","description":"Visual designer for subscription forms","slug":"newsletter-forms","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/account","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2023\\/02\\/forms-addon-icon-32x32-1.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=104","wp_slug":"newsletter-forms\\/forms.php"},{"id":"60","children_fileid":"","category":"delivery","version":"1.4.2","title":"Amazon SES","description":"Send emails and automatically process bounces and complaints with Amazon Simple Email Service.","slug":"newsletter-amazon","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/amazon-ses-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=60","wp_slug":"newsletter-amazon\\/amazon.php"},{"id":"65","children_fileid":"","category":"delivery","version":"4.1.8","title":"Mailgun","description":"Send emails and automatically process bounces with Mailgun.","slug":"newsletter-mailgun","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/mailgun-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=65","wp_slug":"newsletter-mailgun\\/mailgun.php"},{"id":"48","children_fileid":"","category":"delivery","version":"4.3.1","title":"SendGrid","description":"Send emails and automatically process bounces with SendGrid.","slug":"newsletter-sendgrid","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/sendgrid-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=48","wp_slug":"newsletter-sendgrid\\/sendgrid.php"},{"id":"52","children_fileid":"","category":"delivery","version":"4.1.3","title":"Mailjet","description":"Send emails and automatically process bounces with Mailjet.","slug":"newsletter-mailjet","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/mailjet-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=52","wp_slug":"newsletter-mailjet\\/mailjet.php"},{"id":"66","children_fileid":"","category":"delivery","version":"1.1.5","title":"ElasticEmail","description":"Send emails and automatically process bounces with ElasticEmail.","slug":"newsletter-elasticemail","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/elasticemail-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=66","wp_slug":"newsletter-elasticemail\\/elasticemail.php"},{"id":"105","children_fileid":"","category":"subscription","version":"1.0.5","title":"Fluent Forms Connect","description":"Collect subscribers with your Fluent Forms plugin.","slug":"newsletter-fluentforms","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/premium","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2023\\/03\\/fluentforms-32x32-1.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=105","wp_slug":"newsletter-fluentforms\\/fluentforms.php"},{"id":"69","children_fileid":"","category":"delivery","version":"1.2.4","title":"SparkPost","description":"Send emails and automatically process bounces with SparkPost.","slug":"newsletter-sparkpost","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/sparkpost-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=69","wp_slug":"newsletter-sparkpost\\/sparkpost.php"},{"id":"74","children_fileid":"","category":"newsletters","version":"1.4.8","title":"Extended Composer Blocks","description":"Adds new blocks to the newsletter composer: list, video, gallery, full post.","slug":"newsletter-blocks","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/composer","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2017\\/04\\/ui-32px-outline-3_widget.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=74","wp_slug":"newsletter-blocks\\/blocks.php"},{"id":"85","children_fileid":"","category":"","version":"1.2.0","title":"Addons Manager","description":"","slug":"newsletter-extensions","type":"manager","url":"https:\\/\\/www.thenewsletterplugin.com\\/account","image":"","status":"4","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=85","wp_slug":"newsletter-extensions\\/extensions.php"},{"id":"77","children_fileid":"","category":"tools","version":"2.3.5","title":"Newsletter API","description":"Access programmatically to The Newsletter Plugin via REST calls.","slug":"newsletter-api","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/developers\\/newsletter-api-2\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2017\\/10\\/bold-direction@2x-1.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=77","wp_slug":"newsletter-api\\/api.php"},{"id":"75","children_fileid":"","category":"statistics","version":"1.2.0","title":"Geolocation","description":"Geolocate the subscribers and target them by geolocation in your campaign.","slug":"newsletter-geo","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/geolocation-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2018\\/03\\/geo-extension-icon.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=75","wp_slug":"newsletter-geo\\/geo.php"},{"id":"90","children_fileid":"","category":"delivery","version":"1.1.6","title":"Brevo (formerly Sendinblue)","description":"Send emails and automatically process bounces and complaints with Brevo (formerly Sendinblue).","slug":"newsletter-sendinblue","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/sendinblue-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=90","wp_slug":"newsletter-sendinblue\\/sendinblue.php"},{"id":"72","children_fileid":"","category":"automation","version":"1.4.4","title":"Autoresponder","description":"Create unlimited email series to follow-up your subscribers. Lessons, up-sells, conversations.","slug":"newsletter-autoresponder","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/autoresponder","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/emoticons-32px-outline_robot.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=72","wp_slug":"newsletter-autoresponder\\/autoresponder.php"},{"id":"50","children_fileid":"","category":"statistics","version":"4.5.2","title":"Reports and Retargeting","description":"Detailed statistics of your campaign (opens, clicks, URLs) and retargeting based on subscriber behavior.","slug":"newsletter-reports","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/reports","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/business-32px-outline_chart-bar-33.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=50","wp_slug":"newsletter-reports\\/reports.php"},{"id":"68","children_fileid":"","category":"statistics","version":"1.2.0","title":"Google Analytics","description":"Automatically add Google Analytics UTM campaign tracking to links","slug":"newsletter-analytics","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/google-analytics","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/08\\/analytics.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=68","wp_slug":"newsletter-analytics\\/analytics.php"},{"id":"63","children_fileid":"","category":"newsletters, subscription","version":"1.8.4","title":"WooCommerce","description":"Subscribe on checkout, subscribers import, segmentation by cart products, and newsletter composer products block.","slug":"newsletter-woocommerce","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/woocommerce","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2018\\/03\\/woocommerce-extension-icon.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=63","wp_slug":"newsletter-woocommerce\\/woocommerce.php"},{"id":"62","children_fileid":"","category":"automation","version":"4.6.1","title":"Automated","description":"Automatically creates periodic newsletters with your blog content (posts, products, events, CPTs).","slug":"newsletter-automated","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/automated","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/03\\/automated-32.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=62","wp_slug":"newsletter-automated\\/automated.php"},{"id":"100","children_fileid":"","category":"subscription, newsletters","version":"1.0.5","title":"Easy Digital Downloads","description":"Subscribe on checkout and newsletter composer products block.","slug":"newsletter-edd","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/edd-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/08\\/edd.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=100","wp_slug":"newsletter-edd\\/edd.php"},{"id":"79","children_fileid":"","category":"newsletters","version":"1.2.5","title":"Events Manager","description":"Adds a composer block that extracts the events managed by the Events Manager plugin.","slug":"newsletter-events","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/events-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2019\\/02\\/events-manager-icon.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=79","wp_slug":"newsletter-events\\/events.php"},{"id":"82","children_fileid":"","category":"tools","version":"1.0.0","title":"Translatepress Bridge","description":"Enables few multilanguage Newsletter features for who is using Translatepress.","slug":"newsletter-translatepress","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/translatepress-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2018\\/09\\/translatepress.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=82","wp_slug":"newsletter-translatepress\\/translatepress.php"},{"id":"86","children_fileid":"","category":"tools","version":"1.4.1","title":"Advanced Import","description":"An advanced import system with extended profile fields and mapping (beta version).","slug":"newsletter-import","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/advanced-import\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/file-upload-88.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=86","wp_slug":"newsletter-import\\/import.php"},{"id":"55","children_fileid":"","category":"legacy","version":"4.1.0","title":"Facebook","description":"One click subscription and confirmation with Facebook Connect.","slug":"newsletter-facebook","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/facebook-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2021\\/08\\/facebook.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=55","wp_slug":"newsletter-facebook\\/facebook.php"},{"id":"88","children_fileid":"","category":"newsletters","version":"1.2.7","title":"The Events Calendar (by Tribe)","description":"Adds a composer block that extracts the events managed by The Events Calendar plugin.","slug":"newsletter-tribeevents","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/integrations\\/tribeevents-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2019\\/02\\/tribe-event-calendar-icon.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=88","wp_slug":"newsletter-tribeevents\\/tribeevents.php"},{"id":"95","children_fileid":"","category":"delivery","version":"1.0.3","title":"Mailersend","description":"Send emails and automatically process bounces and complaints with MailerSend.","slug":"newsletter-mailersend","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/account","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=95","wp_slug":"newsletter-mailersend\\/mailersend.php"},{"id":"67","children_fileid":"","category":"subscription","version":"1.3.5","title":"Leads","description":"Add a popup or a fixed subscription bar to your website and offer your visitors a simple way to subscribe.","slug":"newsletter-leads","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/leads","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/ui-32px-outline-3_widget.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=67","wp_slug":"newsletter-leads\\/leads.php"},{"id":"97","children_fileid":"","category":"tools","version":"1.0.6","title":"Webhooks","description":"Adds webhooks to trigger external services upon subscription and cancellation events.","slug":"newsletter-webhooks","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/developers\\/newsletter-webhooks\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2017\\/10\\/bold-direction@2x-1.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=97","wp_slug":"newsletter-webhooks\\/webhooks.php"},{"id":"71","children_fileid":"","category":"subscription","version":"1.1.6","title":"Locked Content","description":"Hide premium content in your posts and offer a subscription to see them.","slug":"newsletter-lock","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/locked-content-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2017\\/04\\/ui-32px-outline-1_lock-open.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=71","wp_slug":"newsletter-lock\\/lock.php"},{"id":"58","children_fileid":"","category":"tools","version":"4.1.1","title":"Public Archive","description":"Generates a public archive of the sent newsletters for your blog.","slug":"newsletter-archive","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/archive-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/files-32px-outline_archive-3d-content.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=58","wp_slug":"newsletter-archive\\/archive.php"},{"id":"70","children_fileid":"","category":"subscription","version":"1.1.2","title":"Subscribe on Comment","description":"Adds the subscription option to your blog comment form.","slug":"newsletter-comments","type":"integration","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/comments-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2017\\/02\\/comment-notification.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=70","wp_slug":"newsletter-comments\\/comments.php"},{"id":"54","children_fileid":"","category":"legacy","version":"4.1.3","title":"Followup","description":"Automated email series sent upon subscription at defined intervals.","slug":"newsletter-followup","type":"legacy","url":"https:\\/\\/www.thenewsletterplugin.com\\/plugins\\/newsletter\\/follow-up-module","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/ui-32px-outline-2_time-countdown.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=54","wp_slug":"newsletter-followup\\/followup.php"},{"id":"53","children_fileid":"","category":"legacy","version":"2.2.0","title":"Popup","description":"Configurable popup system to increase the subscription rate.","slug":"newsletter-popup","type":"legacy","url":"https:\\/\\/www.thenewsletterplugin.com\\/plugins\\/newsletter\\/popup-module","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/ui-32px-outline-3_widget.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=53","wp_slug":"newsletter-popup\\/popup.php"},{"id":"51","children_fileid":"","category":"legacy","version":"4.1.3","title":"Feed by Mail","description":"Automatically creates and sends newsletters with the latest blog posts.","slug":"newsletter-feed","type":"legacy","url":"https:\\/\\/www.thenewsletterplugin.com\\/feed-by-mail-extension","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/ui-32px-outline-3_playlist.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=51","wp_slug":"newsletter-feed\\/feed.php"},{"id":"49","children_fileid":"","category":"legacy","version":"4.0.0","title":"Mandrill","description":"Integrates the Mandrill delivery system and bounce detection.","slug":"newsletter-mandrill","type":"legacy","url":"http:\\/\\/www.thenewsletterplugin.com\\/plugins\\/newsletter\\/mandrill-module","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=49","wp_slug":"newsletter-mandrill\\/mandrill.php"},{"id":"93","children_fileid":"","category":"delivery","version":"1.0.9","title":"External SMTP","description":"Send emails with a generic SMTP.","slug":"newsletter-smtp","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/delivery-addons\\/smtp-extension\\/","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"4","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=93","wp_slug":"newsletter-smtp\\/smtp.php"},{"id":"91","children_fileid":"","category":"newsletters","version":"1.0.3","title":"Instasend","description":"Quickly create a newsletter from a post (free for limited time)","slug":"newsletter-instasend","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/instasend\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2020\\/05\\/instasend-32.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=91","wp_slug":"newsletter-instasend\\/instasend.php"},{"id":"96","children_fileid":"","category":"delivery","version":"1.0.5","title":"Office 365 Header Removal","description":"This addon removes hidden headers from outgoing email to avoid Office365 SMTP block (or attempt to...). Install ONLY if you\'re using Office365 SMTP with an SMTP plugin!","slug":"newsletter-office365","type":"delivery","url":"https:\\/\\/www.thenewsletterplugin.com\\/account","image":"https:\\/\\/cdn.thenewsletterplugin.com\\/extensions\\/design-32px-outline_newsletter-dev.png","status":"3","free":true,"downloadable":true,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=96","wp_slug":"newsletter-office365\\/office365.php"},{"id":"76","children_fileid":"","category":"tools","version":"1.2.3","title":"Bounce Management","description":"Bounce management (only if do not use a delivery addon).","slug":"newsletter-bounce","type":"extension","url":"https:\\/\\/www.thenewsletterplugin.com\\/documentation\\/addons\\/extended-features\\/bounce-extension\\/","image":"https:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/uploads\\/2017\\/10\\/ic_settings_backup_restore_32px.png","status":"2","free":false,"downloadable":false,"download_url":"http:\\/\\/www.thenewsletterplugin.com\\/wp-content\\/plugins\\/file-commerce-pro\\/get.php?f=76","wp_slug":"newsletter-bounce\\/bounce.php"}]', 'no'),
 	(1015, '_transient_is_multi_author', '0', 'yes'),
 	(1028, '_transient_timeout_astra-theme-cron-test-ok', '1697007092', 'no'),
-	(1029, '_transient_astra-theme-cron-test-ok', '1', 'no');
+	(1029, '_transient_astra-theme-cron-test-ok', '1', 'no'),
+	(1039, '_transient_timeout_cs_local_to_cloud_map', '1697090447', 'no'),
+	(1040, '_transient_cs_local_to_cloud_map', 'a:0:{}', 'no');
 
 -- Volcando estructura para tabla wordpress.wp_postmeta
-DROP TABLE IF EXISTS `wp_postmeta`;
 CREATE TABLE IF NOT EXISTS `wp_postmeta` (
   `meta_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `post_id` bigint unsigned NOT NULL DEFAULT '0',
@@ -1190,7 +1176,7 @@ REPLACE INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALU
 	(569, 191, '_wp_page_template', 'default'),
 	(570, 191, 'obfx-header-scripts', ''),
 	(571, 191, 'obfx-footer-scripts', ''),
-	(572, 191, '_edit_lock', '1697003551:1'),
+	(572, 191, '_edit_lock', '1697004395:1'),
 	(573, 191, '_uag_custom_page_level_css', ''),
 	(574, 191, 'site-post-title', 'disabled'),
 	(575, 191, 'theme-transparent-header-meta', ''),
@@ -1496,7 +1482,6 @@ REPLACE INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALU
 	(1356, 191, '_uag_css_file_name', 'uag-css-191-1697003045.css');
 
 -- Volcando estructura para tabla wordpress.wp_posts
-DROP TABLE IF EXISTS `wp_posts`;
 CREATE TABLE IF NOT EXISTS `wp_posts` (
   `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
   `post_author` bigint unsigned NOT NULL DEFAULT '0',
@@ -1528,7 +1513,7 @@ CREATE TABLE IF NOT EXISTS `wp_posts` (
   KEY `post_author` (`post_author`)
 ) ENGINE=InnoDB AUTO_INCREMENT=461 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
--- Volcando datos para la tabla wordpress.wp_posts: ~393 rows (aproximadamente)
+-- Volcando datos para la tabla wordpress.wp_posts: ~354 rows (aproximadamente)
 REPLACE INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 	(4, 0, '2023-09-28 21:23:43', '2023-09-29 00:23:43', '<!-- wp:page-list /-->', 'Navegación', '', 'publish', 'closed', 'closed', '', 'navigation', '', '', '2023-09-28 21:23:43', '2023-09-29 00:23:43', '', 0, 'http://localhost/FrameworksInteroperabilidad/wordpress/2023/09/28/navigation/', 0, 'wp_navigation', '', 0),
 	(6, 1, '2023-10-07 17:25:08', '0000-00-00 00:00:00', '', 'Borrador automático', '', 'auto-draft', 'open', 'open', '', '', '', '', '2023-10-07 17:25:08', '0000-00-00 00:00:00', '', 0, 'http://localhost/FrameworksInteroperabilidad/wordpress/?p=6', 0, 'post', '', 0),
@@ -1926,7 +1911,6 @@ REPLACE INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `pos
 	(460, 1, '2023-10-11 02:44:03', '2023-10-11 05:44:03', '<!-- wp:cover {"url":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/original-scaled-e1696746943348.jpg","id":172,"hasParallax":true,"dimRatio":80,"customOverlayColor":"#000000","minHeight":80,"minHeightUnit":"vh","contentPosition":"center center","align":"full","style":{"spacing":{"padding":{"right":"0rem","left":"0rem"}},"color":{"duotone":"unset"}},"UAGDay":[]} -->\n<div class="wp-block-cover alignfull has-parallax" style="padding-right:0rem;padding-left:0rem;min-height:80vh"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-80 has-background-dim" style="background-color:#000000"></span><div role="img" class="wp-block-cover__image-background wp-image-172 has-parallax" style="background-position:50% 50%;background-image:url(http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/original-scaled-e1696746943348.jpg)"></div><div class="wp-block-cover__inner-container"><!-- wp:columns {"align":"wide"} -->\n<div class="wp-block-columns alignwide"><!-- wp:column {"verticalAlignment":"bottom","style":{"spacing":{"padding":{"right":"6rem","left":"6rem"}}},"UAGHideMob":true,"UAGResponsiveConditions":true} -->\n<div class="wp-block-column is-vertically-aligned-bottom uag-hide-mob" style="padding-right:6rem;padding-left:6rem"><!-- wp:heading {"style":{"color":{"text":"#ffffff"}},"UAGDay":[]} -->\n<h2 class="wp-block-heading has-text-color" style="color:#ffffff"><em>Todo </em>en un solo lugar</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {"style":{"color":{"text":"#d7d7d7"}}} -->\n<p class="has-text-color" style="color:#d7d7d7"><strong>Navegá </strong>el catálogo de <strong>todos tus servicios </strong>de streaming <strong>juntos</strong>.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:buttons -->\n<div class="wp-block-buttons"><!-- wp:button -->\n<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Registrarse</a></div>\n<!-- /wp:button --></div>\n<!-- /wp:buttons --></div>\n<!-- /wp:column -->\n\n<!-- wp:column {"verticalAlignment":"bottom","UAGHideDesktop":true,"UAGHideTab":true,"UAGResponsiveConditions":true} -->\n<div class="wp-block-column is-vertically-aligned-bottom uag-hide-desktop uag-hide-tab"><!-- wp:heading {"textAlign":"center","style":{"color":{"text":"#ffffff"}},"UAGDay":[]} -->\n<h2 class="wp-block-heading has-text-align-center has-text-color" style="color:#ffffff"><em>Todo </em>en un solo lugar</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {"align":"center","style":{"color":{"text":"#d7d7d7"}}} -->\n<p class="has-text-align-center has-text-color" style="color:#d7d7d7"><strong>Navegá </strong>el catálogo de <strong>todos tus servicios </strong>de streaming <strong>juntos</strong>.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->\n<div class="wp-block-buttons"><!-- wp:button -->\n<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Registrarse</a></div>\n<!-- /wp:button --></div>\n<!-- /wp:buttons --></div>\n<!-- /wp:column --></div>\n<!-- /wp:columns --></div></div>\n<!-- /wp:cover -->\n\n<!-- wp:uagb/container {"block_id":"ba00a22d","directionDesktop":"row","directionMobile":"column","alignItemsDesktop":"stretch","alignItemsTablet":"stretch","alignItemsMobile":"stretch","topPaddingDesktop":3,"bottomPaddingDesktop":3,"leftPaddingDesktop":3,"rightPaddingDesktop":3,"paddingType":"em","paddingLink":false,"variationSelected":true,"isBlockRootParent":true,"equalHeight":true} -->\n<div class="wp-block-uagb-container uagb-block-ba00a22d alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/container {"block_id":"d0cae0da","widthDesktop":33,"alignItemsDesktop":"flex-start","alignItemsTablet":"center","alignItemsMobile":"center","backgroundType":"color","backgroundColor":"var(\\u002d\\u002dast-global-color-2)","topPaddingDesktop":2,"bottomPaddingDesktop":2,"leftPaddingDesktop":2,"rightPaddingDesktop":2,"paddingType":"em","widthSetByUser":true,"textColor":"","containerBorderTopLeftRadius":20,"containerBorderTopRightRadius":20,"containerBorderBottomLeftRadius":20,"containerBorderBottomRightRadius":20} -->\n<div class="wp-block-uagb-container uagb-block-d0cae0da"><!-- wp:html -->\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" style="width:50px">\n  <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3V6zM3 15.75a3 3 0 013-3h2.25a3 3 0 013 3V18a3 3 0 01-3 3H6a3 3 0 01-3-3v-2.25zm9.75 0a3 3 0 013-3H18a3 3 0 013 3V18a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-2.25z" clip-rule="evenodd" />\n</svg>\n<!-- /wp:html -->\n\n<!-- wp:heading {"level":3,"style":{"color":{"text":"#ffffff"},"spacing":{"padding":{"top":"0","bottom":"0"}}},"UAGDay":[]} -->\n<h3 class="wp-block-heading has-text-color" style="color:#ffffff;padding-top:0;padding-bottom:0">catalago combinado</h3>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {"style":{"color":{"text":"#d7d7d7"}}} -->\n<p class="has-text-color" style="color:#d7d7d7"><strong>Navegá</strong> los catálagos de <strong>todos tus servicios </strong>de streaming a la vez.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"d0fc3d05","widthDesktop":33,"alignItemsDesktop":"flex-start","alignItemsTablet":"center","alignItemsMobile":"center","backgroundType":"color","backgroundPositionDesktop":{"x":0.5,"y":0.5},"backgroundColor":"var(\\u002d\\u002dast-global-color-2)","topPaddingDesktop":2,"bottomPaddingDesktop":2,"leftPaddingDesktop":2,"rightPaddingDesktop":2,"paddingType":"em","widthSetByUser":true,"textColor":"","backgroundPositionOverlayDesktop":{"x":0.5,"y":0.5},"containerBorderTopLeftRadius":20,"containerBorderTopRightRadius":20,"containerBorderBottomLeftRadius":20,"containerBorderBottomRightRadius":20} -->\n<div class="wp-block-uagb-container uagb-block-d0fc3d05"><!-- wp:html -->\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" style="width:50px">\n  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />\n</svg>\n<!-- /wp:html -->\n\n<!-- wp:heading {"level":3,"style":{"color":{"text":"#ffffff"}},"UAGDay":[]} -->\n<h3 class="wp-block-heading has-text-color" style="color:#ffffff">reviews</h3>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {"style":{"color":{"text":"#d7d7d7"}}} -->\n<p class="has-text-color" style="color:#d7d7d7"><strong>Compartí tu opinión</strong> sobre las películas que ves. Otros usuarios podrán verlas, comentar e interactuar.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"8fbbf31c","widthDesktop":33,"alignItemsDesktop":"flex-start","alignItemsTablet":"center","alignItemsMobile":"center","backgroundType":"color","backgroundPositionDesktop":{"x":0.5,"y":0.5},"backgroundColor":"var(\\u002d\\u002dast-global-color-2)","topPaddingDesktop":2,"bottomPaddingDesktop":2,"leftPaddingDesktop":2,"rightPaddingDesktop":2,"paddingType":"em","widthSetByUser":true,"textColor":"","backgroundPositionOverlayDesktop":{"x":0.5,"y":0.5},"containerBorderTopLeftRadius":20,"containerBorderTopRightRadius":20,"containerBorderBottomLeftRadius":20,"containerBorderBottomRightRadius":20} -->\n<div class="wp-block-uagb-container uagb-block-8fbbf31c"><!-- wp:html -->\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" style="width:50px">\n  <path fill-rule="evenodd" d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" clip-rule="evenodd" />\n</svg>\n<!-- /wp:html -->\n\n<!-- wp:heading {"level":3,"style":{"color":{"text":"#ffffff"}},"UAGDay":[]} -->\n<h3 class="wp-block-heading has-text-color" style="color:#ffffff">Biblioteca y listas</h3>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {"style":{"color":{"text":"#d7d7d7"}}} -->\n<p class="has-text-color" style="color:#d7d7d7"><strong>Organizá </strong>noche de películas, maratones y más con la función de crear listas de reproducción.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:uagb/container --></div></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"62455f4c","directionDesktop":"row","backgroundType":"color","backgroundColor":"#18181b","topPaddingDesktop":3,"bottomPaddingDesktop":3,"leftPaddingDesktop":1,"rightPaddingDesktop":1,"paddingType":"em","paddingLink":false,"variationSelected":true,"isBlockRootParent":true} -->\n<div class="wp-block-uagb-container uagb-block-62455f4c alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/container {"block_id":"c6fd7d25","isBlockRootParent":true} -->\n<div class="wp-block-uagb-container uagb-block-c6fd7d25 alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:heading {"textAlign":"center","style":{"color":{"text":"#ffffff"}},"UAGDay":[]} -->\n<h2 class="wp-block-heading has-text-align-center has-text-color" style="color:#ffffff">SERVICIOS</h2>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph {"align":"center","style":{"color":{"text":"#d7d7d7"}}} -->\n<p class="has-text-align-center has-text-color" style="color:#d7d7d7"><strong>Kite App</strong> cuenta con el catálogo de los <strong>principales servicios </strong>del país.</p>\n<!-- /wp:paragraph --></div></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"318d1f6d","isBlockRootParent":true} -->\n<div class="wp-block-uagb-container uagb-block-318d1f6d alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/container {"block_id":"13df36fb","directionDesktop":"row","alignItemsTablet":"stretch","alignItemsMobile":"stretch"} -->\n<div class="wp-block-uagb-container uagb-block-13df36fb"><!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none","style":{"color":{"duotone":["rgb(255, 255, 255)","rgb(255, 255, 255)"]}},"UAGDay":[]} -->\n<figure class="wp-block-image aligncenter size-large"><img src="https://media.movieofthenight.com/services/netflix/logo-dark-theme.svg" alt=""/></figure>\n<!-- /wp:image -->\n\n<!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none","style":{"color":{"duotone":["rgb(255, 255, 255)","rgb(255, 255, 255)"]}},"UAGDay":[]} -->\n<figure class="wp-block-image aligncenter size-large"><img src="https://media.movieofthenight.com/services/disney/logo-dark-theme.svg" alt=""/></figure>\n<!-- /wp:image -->\n\n<!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none","UAGDay":[]} -->\n<figure class="wp-block-image aligncenter size-large"><img src="https://media.movieofthenight.com/services/apple/logo-dark-theme.svg" alt=""/></figure>\n<!-- /wp:image --></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"5282046a","directionDesktop":"row","alignItemsTablet":"stretch","alignItemsMobile":"stretch"} -->\n<div class="wp-block-uagb-container uagb-block-5282046a"><!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none","UAGDay":[]} -->\n<figure class="wp-block-image aligncenter size-large"><img src="https://media.movieofthenight.com/services/hbo/logo-dark-theme.svg" alt=""/></figure>\n<!-- /wp:image -->\n\n<!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none","UAGDay":[]} -->\n<figure class="wp-block-image aligncenter size-large"><img src="https://media.movieofthenight.com/services/prime/logo-dark-theme.svg" alt=""/></figure>\n<!-- /wp:image -->\n\n<!-- wp:image {"align":"center","sizeSlug":"large","linkDestination":"none","style":{"color":{"duotone":["rgb(255, 255, 255)","rgb(255, 255, 255)"]}},"UAGDay":[]} -->\n<figure class="wp-block-image aligncenter size-large"><img src="https://media.movieofthenight.com/services/paramount/logo-dark-theme.svg" alt=""/></figure>\n<!-- /wp:image --></div>\n<!-- /wp:uagb/container --></div></div>\n<!-- /wp:uagb/container --></div></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"f93bf2ef","topPaddingDesktop":3,"bottomPaddingDesktop":3,"leftPaddingDesktop":6,"rightPaddingDesktop":6,"paddingType":"em","paddingLink":false,"variationSelected":true,"isBlockRootParent":true} -->\n<div id="test" class="wp-block-uagb-container uagb-block-f93bf2ef alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/advanced-heading {"block_id":"6c17642a","classMigrate":true,"headingAlign":"center"} -->\n<div class="wp-block-uagb-advanced-heading uagb-block-6c17642a"><h2 class="uagb-heading-text">Más Populares</h2></div>\n<!-- /wp:uagb/advanced-heading -->\n\n<!-- wp:paragraph {"align":"center"} -->\n<p class="has-text-align-center">Todos tus favoritos están en <strong>Kite</strong>.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:shortcode -->\n[getPopularMovies]\n<!-- /wp:shortcode --></div></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"494a12f0","directionDesktop":"row","backgroundType":"color","backgroundColor":"#18181b","topPaddingDesktop":3,"bottomPaddingDesktop":3,"leftPaddingDesktop":6,"rightPaddingDesktop":6,"paddingType":"em","paddingLink":false,"variationSelected":true,"isBlockRootParent":true} -->\n<div class="wp-block-uagb-container uagb-block-494a12f0 alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/container {"block_id":"b1920d9d","isBlockRootParent":true} -->\n<div class="wp-block-uagb-container uagb-block-b1920d9d alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/advanced-heading {"block_id":"a4343f73","classMigrate":true,"headingAlign":"center"} -->\n<div class="wp-block-uagb-advanced-heading uagb-block-a4343f73"><h2 class="uagb-heading-text">Suscribite al newsletter</h2></div>\n<!-- /wp:uagb/advanced-heading -->\n\n<!-- wp:paragraph {"align":"center"} -->\n<p class="has-text-align-center">Enterate de sorteos, novedades y más.</p>\n<!-- /wp:paragraph --></div></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"4883cca1","isBlockRootParent":true} -->\n<div class="wp-block-uagb-container uagb-block-4883cca1 alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:shortcode -->\n[newsletter]\n<!-- /wp:shortcode --></div></div>\n<!-- /wp:uagb/container --></div></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"4b5c72dc","topPaddingDesktop":3,"bottomPaddingDesktop":3,"leftPaddingDesktop":6,"rightPaddingDesktop":6,"paddingType":"em","paddingLink":false,"variationSelected":true,"isBlockRootParent":true} -->\n<div class="wp-block-uagb-container uagb-block-4b5c72dc alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/advanced-heading {"block_id":"d05cba5f","classMigrate":true,"headingAlign":"center"} -->\n<div class="wp-block-uagb-advanced-heading uagb-block-d05cba5f"><h2 class="uagb-heading-text">ÚLTIMAS Novedades</h2></div>\n<!-- /wp:uagb/advanced-heading -->\n\n<!-- wp:paragraph {"align":"center"} -->\n<p class="has-text-align-center"><strong>Enterate </strong>de las <strong>nuevas funcionalidades</strong> agregadas a <strong>Kite</strong>.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:uagb/post-carousel {"btnBorderStyle":"none","block_id":"6a71e2cf","postDisplaytext":"Vuelva de nuevo más tarde.","displayPostExcerpt":false,"excerptLength":12,"displayPostComment":false,"linkBox":false,"bgOverlayColor":"","overlayOpacity":60,"displayPostLink":false,"ctaText":"Leer más","bgColor":"var(\\u002d\\u002dast-global-color-2)","titleColor":"","paddingTop":35,"paddingBottom":35,"paddingRight":35,"paddingLeft":35,"imageBottomSpace":25,"arrowSize":16,"arrowBorderSize":2,"arrowColor":"#ffffff","equalHeight":true,"layoutConfig":[["uagb/post-image",{"UAGHideDesktop":false,"UAGHideMob":false,"UAGHideTab":false,"UAGLoggedIn":false,"UAGLoggedOut":false,"UAGDay":[],"UAGResponsiveConditions":false,"UAGAnimationType":"","UAGAnimationTime":400,"UAGAnimationDelay":0,"UAGAnimationEasing":"ease","UAGAnimationRepeat":false,"children":[]}],["uagb/post-taxonomy",{"UAGHideDesktop":false,"UAGHideMob":false,"UAGHideTab":false,"UAGLoggedIn":false,"UAGLoggedOut":false,"UAGDay":[],"UAGResponsiveConditions":false,"UAGAnimationType":"","UAGAnimationTime":400,"UAGAnimationDelay":0,"UAGAnimationEasing":"ease","UAGAnimationRepeat":false,"children":[]}],["uagb/post-title",{"UAGHideDesktop":false,"UAGHideMob":false,"UAGHideTab":false,"UAGLoggedIn":false,"UAGLoggedOut":false,"UAGDay":[],"UAGResponsiveConditions":false,"UAGAnimationType":"","UAGAnimationTime":400,"UAGAnimationDelay":0,"UAGAnimationEasing":"ease","UAGAnimationRepeat":false,"children":[]}],["uagb/post-meta",{"UAGHideDesktop":false,"UAGHideMob":false,"UAGHideTab":false,"UAGLoggedIn":false,"UAGLoggedOut":false,"UAGDay":[],"UAGResponsiveConditions":false,"UAGAnimationType":"","UAGAnimationTime":400,"UAGAnimationDelay":0,"UAGAnimationEasing":"ease","UAGAnimationRepeat":false,"children":[]}],["uagb/post-excerpt",{"UAGHideDesktop":false,"UAGHideMob":false,"UAGHideTab":false,"UAGLoggedIn":false,"UAGLoggedOut":false,"UAGDay":[],"UAGResponsiveConditions":false,"UAGAnimationType":"","UAGAnimationTime":400,"UAGAnimationDelay":0,"UAGAnimationEasing":"ease","UAGAnimationRepeat":false,"children":[]}],["uagb/post-button",{"UAGHideDesktop":false,"UAGHideMob":false,"UAGHideTab":false,"UAGLoggedIn":false,"UAGLoggedOut":false,"UAGDay":[],"UAGResponsiveConditions":false,"UAGAnimationType":"","UAGAnimationTime":400,"UAGAnimationDelay":0,"UAGAnimationEasing":"ease","UAGAnimationRepeat":false,"children":[]}]],"className":"rounded"} /--></div></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"c2a83445","backgroundType":"image","backgroundImageDesktop":{"id":167,"title":"Summer Film Preview","filename":"1x-1-scaled.jpg","url":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/1x-1-scaled.jpg","link":"http://localhost/FrameworksInteroperabilidad/wordpress/summer-film-preview/","alt":"","author":"1","description":"","caption":"This combination of photos shows poster art for upcoming films, top row from left, \\u0022Benediction,\\u0022 \\u0022Chip ‘n Dale: Rescue Rangers,\\u0022 \\u0022Doctor Strange in the Multitude of Madness,\\u0022 \\u0022Downton Abbey: A New Era,\\u0022 \\u0022Elvis,\\u0022 second row from left, \\u0022Fire Island,\\u0022 \\u0022Firestarter,\\u0022 \\u0022Happening,\\u0022 \\u0022Jurassic World Dominion,\\u0022 \\u0022Lightyear,\\u0022 third row from left, \\u0022Marcel the Shell with Shoes On,\\u0022 \\u0022Minions: The Rise of Gru,\\u0022 \\u0022Nope,\\u0022 \\u0022Paws of Fury,\\u0022 \\u0022Senior Year,\\u0022 bottom row from left, \\u0022DC League of Super Pets,\\u0022 \\u0022Thor: Love and Thunder,\\u0022 \\u0022Top Gun Maverick,\\u0022 \\u0022Watcher,\\u0022 and Where the Crawdads Sing.\\u0022 (Roadside Attractions, top row from left, Disney+, Marvel Studios, Focus Features, Warner Bros., second row from left, Hulu/Searchlight Pictures, Universal, IFC Films, Universal, Disney, third row from left, A24, Universal, Warner Bros., Paramount, Netflix, bottom row from left, Warner Bros., Marvel Studios, Paramount, IFC Films and Sony Pictures via AP)","name":"summer-film-preview","status":"inherit","uploadedTo":0,"date":"2023-10-07T21:33:20.000Z","modified":"2023-10-07T21:33:20.000Z","menuOrder":0,"mime":"image/jpeg","type":"image","subtype":"jpeg","icon":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-includes/images/media/default.png","dateFormatted":"7 octubre, 2023","nonces":{"update":"afac0b51c9","delete":"2131ebaa37","edit":"778d0c1dbb"},"editLink":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-admin/post.php?post=167\\u0026action=edit","meta":false,"authorName":"admin","authorLink":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-admin/profile.php","filesizeInBytes":1076323,"filesizeHumanReadable":"1 MB","context":"","originalImageURL":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/1x-1.jpg","originalImageName":"1x-1.jpg","height":2560,"width":2156,"orientation":"portrait","sizes":{"thumbnail":{"height":150,"width":150,"url":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/1x-1-150x150.jpg","orientation":"landscape"},"medium":{"height":300,"width":253,"url":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/1x-1-253x300.jpg","orientation":"portrait"},"large":{"height":1024,"width":863,"url":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/1x-1-863x1024.jpg","orientation":"portrait"},"full":{"url":"http://localhost/FrameworksInteroperabilidad/wordpress/wp-content/uploads/2023/10/1x-1-scaled.jpg","height":2560,"width":2156,"orientation":"portrait"}},"compat":{"item":"","meta":""}},"backgroundPositionDesktop":{"x":0.5,"y":0.5},"backgroundAttachmentDesktop":"fixed","backgroundColor":"#18181b","backgroundImageColor":"rgba(5,5,5,0.93)","topPaddingDesktop":3,"bottomPaddingDesktop":3,"leftPaddingDesktop":6,"rightPaddingDesktop":6,"paddingType":"em","variationSelected":true,"isBlockRootParent":true,"overlayType":"color","backgroundPositionOverlayDesktop":{"x":0.5,"y":0.5}} -->\n<div class="wp-block-uagb-container uagb-block-c2a83445 alignfull uagb-is-root-container"><div class="uagb-container-inner-blocks-wrap"><!-- wp:uagb/container {"block_id":"ad44611b","widthDesktop":50,"widthSetByUser":true} -->\n<div class="wp-block-uagb-container uagb-block-ad44611b"><!-- wp:uagb/advanced-heading {"block_id":"5f3e478f","classMigrate":true,"headingAlign":"center"} -->\n<div class="wp-block-uagb-advanced-heading uagb-block-5f3e478f"><h2 class="uagb-heading-text">¿Qué esperás?</h2></div>\n<!-- /wp:uagb/advanced-heading --></div>\n<!-- /wp:uagb/container -->\n\n<!-- wp:uagb/container {"block_id":"6073967f","widthDesktop":50,"widthSetByUser":true} -->\n<div class="wp-block-uagb-container uagb-block-6073967f"><!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"}} -->\n<div class="wp-block-buttons"><!-- wp:button -->\n<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Registrarse</a></div>\n<!-- /wp:button --></div>\n<!-- /wp:buttons --></div>\n<!-- /wp:uagb/container --></div></div>\n<!-- /wp:uagb/container -->', 'home', '', 'inherit', 'closed', 'closed', '', '191-revision-v1', '', '', '2023-10-11 02:44:03', '2023-10-11 05:44:03', '', 191, 'http://localhost/FrameworksInteroperabilidad/wordpress/?p=460', 0, 'revision', '', 0);
 
 -- Volcando estructura para tabla wordpress.wp_snippets
-DROP TABLE IF EXISTS `wp_snippets`;
 CREATE TABLE IF NOT EXISTS `wp_snippets` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` tinytext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
@@ -1950,10 +1934,9 @@ REPLACE INTO `wp_snippets` (`id`, `name`, `description`, `code`, `tags`, `scope`
 	(2, 'Disable admin bar', 'Turns off the WordPress admin bar for everyone except administrators.\n\nThis is a sample snippet. Feel free to use it, edit it, or remove it.', 'add_action( \'wp\', function () {\n	if ( ! current_user_can( \'manage_options\' ) ) {\n		show_admin_bar( false );\n	}\n} );', 'sample, admin-bar', 'front-end', 10, 0, '2023-10-08 20:34:56', 2, NULL),
 	(3, 'Allow smilies', 'Allows smiley conversion in obscure places.\n\nThis is a sample snippet. Feel free to use it, edit it, or remove it.', 'add_filter( \'widget_text\', \'convert_smilies\' );\nadd_filter( \'the_title\', \'convert_smilies\' );\nadd_filter( \'wp_title\', \'convert_smilies\' );\nadd_filter( \'get_bloginfo\', \'convert_smilies\' );', 'sample', 'global', 10, 0, '2023-10-08 20:34:56', 2, NULL),
 	(4, 'Current year', 'Shortcode for inserting the current year into a post or page..\n\nThis is a sample snippet. Feel free to use it, edit it, or remove it.', '<?php echo date( \'Y\' ); ?>', 'sample, dates', 'content', 10, 0, '2023-10-08 20:34:56', 2, NULL),
-	(5, 'getPopularMovies', '', 'function getPopularMovies(){\n	// Obtener el JSON de la API\n	$json = file_get_contents("http://127.0.0.1:8000/popular");\n	$data = json_decode($json);\n	$response = "";\n	\n\n	$response .= \'<div style="display:grid;grid-template-columns: repeat(5, 1fr);gap:1rem;">\';\n	foreach ($data as $element) {\n		$response .= \'<img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2\'.$element->poster_path.\'" style="border-radius:10px;" />\';\n	}\n	$response .= \'</div>\';\n	\n	return $response;\n}\n\n\nadd_shortcode(\'getPopularMovies\', \'getPopularMovies\');', '', 'front-end', 10, 1, '2023-10-08 21:39:21', 14, NULL);
+	(5, 'getPopularMovies', '', 'function getPopularMovies(){\n	// Obtener el JSON de la API\n	$json = wp_remote_get("http://127.0.0.1:8000/popular");\n	$response = "";\n	$data = [];\n	if ( is_array( $json ) && ! is_wp_error( $json ) ) {\n		$data = json_decode($json[\'body\']);\n	}\n	\n	$response .= \'<div style="display:grid; grid-template-columns: repeat(5, 1fr);gap: 1rem; ">\';\n	if($data){\n		foreach ($data as $element) {\n		$response .= \'<img src="https://image.tmdb.org/t/p/w600_and_h900_bestv2\'.$element->poster_path.\'" style="border-radius:10px;" alt="\'.$element->title.\'" />\';\n		}\n	}else{\n		$response .= \'<p style="text-align: center;">Ocurrió un error .</p>\';\n	}\n	$response .= \'</div>\';\n	\n	return $response;\n}\n	\nadd_shortcode(\'getPopularMovies\', \'getPopularMovies\');', '', 'front-end', 10, 1, '2023-10-11 06:04:54', 16, NULL);
 
 -- Volcando estructura para tabla wordpress.wp_termmeta
-DROP TABLE IF EXISTS `wp_termmeta`;
 CREATE TABLE IF NOT EXISTS `wp_termmeta` (
   `meta_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `term_id` bigint unsigned NOT NULL DEFAULT '0',
@@ -1967,7 +1950,6 @@ CREATE TABLE IF NOT EXISTS `wp_termmeta` (
 -- Volcando datos para la tabla wordpress.wp_termmeta: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_terms
-DROP TABLE IF EXISTS `wp_terms`;
 CREATE TABLE IF NOT EXISTS `wp_terms` (
   `term_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
@@ -1989,7 +1971,6 @@ REPLACE INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 	(7, 'Login', 'login', 0);
 
 -- Volcando estructura para tabla wordpress.wp_term_relationships
-DROP TABLE IF EXISTS `wp_term_relationships`;
 CREATE TABLE IF NOT EXISTS `wp_term_relationships` (
   `object_id` bigint unsigned NOT NULL DEFAULT '0',
   `term_taxonomy_id` bigint unsigned NOT NULL DEFAULT '0',
@@ -2016,7 +1997,6 @@ REPLACE INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_ord
 	(440, 6, 0);
 
 -- Volcando estructura para tabla wordpress.wp_term_taxonomy
-DROP TABLE IF EXISTS `wp_term_taxonomy`;
 CREATE TABLE IF NOT EXISTS `wp_term_taxonomy` (
   `term_taxonomy_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `term_id` bigint unsigned NOT NULL DEFAULT '0',
@@ -2040,7 +2020,6 @@ REPLACE INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `des
 	(7, 7, 'nav_menu', '', 0, 2);
 
 -- Volcando estructura para tabla wordpress.wp_usermeta
-DROP TABLE IF EXISTS `wp_usermeta`;
 CREATE TABLE IF NOT EXISTS `wp_usermeta` (
   `umeta_id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint unsigned NOT NULL DEFAULT '0',
@@ -2078,7 +2057,6 @@ REPLACE INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VAL
 	(23, 1, 'metaboxhidden_dashboard', 'a:6:{i:0;s:21:"dashboard_site_health";i:1;s:19:"dashboard_right_now";i:2;s:18:"dashboard_activity";i:3;s:9:"themeisle";i:4;s:21:"dashboard_quick_press";i:5;s:17:"dashboard_primary";}');
 
 -- Volcando estructura para tabla wordpress.wp_users
-DROP TABLE IF EXISTS `wp_users`;
 CREATE TABLE IF NOT EXISTS `wp_users` (
   `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_login` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '',
@@ -2101,11 +2079,10 @@ REPLACE INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user
 	(1, 'admin', '$P$BBT3Y4arlB1P62rOq0KYgSZH6XDs/v0', 'admin', 'gusa05@gmail.com', 'http://localhost/FrameworksInteroperabilidad/wordpress', '2023-09-29 00:23:42', '1696709884:$P$BouEKjbgI37Pc8V7VJ1onnfYwnMvnd.', 0, 'admin');
 
 -- Volcando estructura para tabla wordpress.wp_wpmailsmtp_debug_events
-DROP TABLE IF EXISTS `wp_wpmailsmtp_debug_events`;
 CREATE TABLE IF NOT EXISTS `wp_wpmailsmtp_debug_events` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `content` text COLLATE utf8mb4_unicode_520_ci,
-  `initiator` text COLLATE utf8mb4_unicode_520_ci,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
+  `initiator` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci,
   `event_type` tinyint unsigned NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -2114,16 +2091,15 @@ CREATE TABLE IF NOT EXISTS `wp_wpmailsmtp_debug_events` (
 -- Volcando datos para la tabla wordpress.wp_wpmailsmtp_debug_events: ~0 rows (aproximadamente)
 
 -- Volcando estructura para tabla wordpress.wp_wpmailsmtp_tasks_meta
-DROP TABLE IF EXISTS `wp_wpmailsmtp_tasks_meta`;
 CREATE TABLE IF NOT EXISTS `wp_wpmailsmtp_tasks_meta` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `action` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
-  `data` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `action` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
--- Volcando datos para la tabla wordpress.wp_wpmailsmtp_tasks_meta: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla wordpress.wp_wpmailsmtp_tasks_meta: ~0 rows (aproximadamente)
 REPLACE INTO `wp_wpmailsmtp_tasks_meta` (`id`, `action`, `data`, `date`) VALUES
 	(1, 'wp_mail_smtp_admin_notifications_update', 'W10=', '2023-10-11 04:59:56');
 
