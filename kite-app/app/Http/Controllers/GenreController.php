@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Genre;
+use App\Models\Title_Has_Genre;
+use Inertia\Inertia;
 
 class GenreController extends Controller
 {
@@ -35,7 +38,25 @@ class GenreController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $titles = [];
+        $genre = Genre::find($id);
+
+        if(!$genre){
+            return Inertia::render('Errors/Error', ['status' => 404]);
+        }
+
+        $titleGenres = Title_Has_Genre::where('genre_id', $id)->orderBy('created_at', 'desc')->get();
+
+        if($titleGenres){
+            foreach($titleGenres as $titleGenre){
+                $title = $titleGenre->title;
+                if($title->status === 1){
+                    array_push($titles, $title);
+                }
+            }
+        }
+
+        return Inertia::render('Genre/Genre', ['titles' => $titles, 'genre' => $genre]);
     }
 
     /**

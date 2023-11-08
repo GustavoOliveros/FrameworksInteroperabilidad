@@ -10,7 +10,12 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TitleController;
-
+use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\PlaylistController;
+use App\Models\Playlist;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\HistoryController;
+use Psy\Command\HistoryCommand;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,11 +31,14 @@ use App\Http\Controllers\TitleController;
 // Everyone
 Route::get('/popular', [TitleController::class, 'popular']);
 
+// Test
+Route::get('/test/{id}/{type}', [TitleController::class, 'getStreamingData']);
+
 // Guests
 Route::get('/', [HomeController::class, 'index']);
 
 // Users without services
-Route::group(['middleware' => ['no access app', 'auth']], function(){
+Route::group(['middleware' => ['no access app', 'auth', 'verified']], function(){
     // Service selection
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
     Route::post('/services-selection', [UserController::class,'addServices'])
@@ -38,20 +46,42 @@ Route::group(['middleware' => ['no access app', 'auth']], function(){
 });
 
 // All users, except those who have not selected their streaming services
-Route::group(['middleware' => ['access app', 'auth']], function(){
+Route::group(['middleware' => ['access app', 'auth', 'verified']], function(){
     // Home
     Route::get('/home', [HomeController::class, 'indexHomepage'])
         ->name('home');
 
     // Search
-    Route::get('/search', function () {
-        return Inertia::render('Search/Search');
-    })->name('search');
-    Route::get('/search/{query}', [SearchController::class, 'perform'])
+    Route::get('/search', [SearchController::class, 'show'])->name('search');
+    Route::post('/search', [SearchController::class, 'perform'])
         ->name('search-term');
 
     // Title
-    Route::get('/title/{id}', [TitleController::class, 'show'])->name('title.show'); 
+    Route::get('/title/{id}', [TitleController::class, 'show'])->name('title.show');
+    Route::get('/titles/{query}/API', [TitleController::class, 'getTitlesFromAPI'])->name('getTitlesFromAPI');
+    Route::get('/add-title', [TitleController::class, 'showAddTitle'])->name('showAddTitle');
+    Route::post('add-title', [TitleController::class, 'storeUser'])->name('storeUser');
+
+    // Library
+    Route::get('/your-library', [LibraryController::class, 'show'])->name('library');
+    Route::get('/your-library/{filter}', [LibraryController::class, 'filterLibrary'])->name('filterLibrary');
+    Route::post('/your-library/save', [LibraryController::class, 'store'])->name('saveToLibrary');
+    Route::delete('/your-library/delete/{titleId}', [LibraryController::class, 'destroy'])->name('deleteFromLibrary');
+
+    // Playlist
+    Route::get('/playlist/{id}', [PlaylistController::class, 'show'])->name('playlist.show');
+    Route::get('/playlists/{titleId}', [PlaylistController::class, 'index'])->name('playlist.index');
+    Route::get('/playlist/{id}/{filter}', [PlaylistController::class, 'filterPlaylist'])->name('filterPlaylist');
+    Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlist.store');
+    Route::post('/playlists/save', [PlaylistController::class, 'savePlaylistSelection'])->name('savePlaylistSelection');
+    Route::delete('/playlist/{id}', [PlaylistController::class, 'destroy'])->name('playlist.destroy');
+
+    // Genres
+    Route::get('/genre/{id}', [GenreController::class, 'show'])->name('genres.show');
+
+    // History
+    Route::get('/title/{id}/watch', [HistoryController::class, 'saveHistory'])->name('saveHistory');
+    Route::get('/your-history', [HistoryController::class, 'show'])->name('history');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -70,6 +100,14 @@ Route::group(['middleware' => ['access app', 'auth']], function(){
         // TITLES
         Route::get('/titles', [TitleController::class, 'index'])
             ->middleware(['can:see titles'])->name('titles');
+
+        Route::post('/titles', [TitleController::class, 'store'])
+            ->middleware(['can:add titles'])->name('title.store');
+
+        Route::get('/titles/all', [TitleController::class, 'getAllLocalTitles'])
+            ->middleware(['can:see titles'])->name('getAllLocalTitles');
+        Route::get('/titles/{id}/accept', [TitleController::class, 'accept'])
+            ->middleware(['can:edit titles'])->name('acceptTitle');
     });
 });
 

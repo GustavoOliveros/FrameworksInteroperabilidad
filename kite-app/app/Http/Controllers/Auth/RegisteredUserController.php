@@ -47,6 +47,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('login')->with('success', 'Se ha registrado con éxito. Revise su correo electrónico para verificar su cuenta.');
     }
 }

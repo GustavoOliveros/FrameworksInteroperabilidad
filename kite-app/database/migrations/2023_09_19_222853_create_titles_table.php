@@ -19,9 +19,15 @@ return new class extends Migration
             $table->string('year');
             $table->string('poster_path')->nullable();
             $table->string('backdrop_path')->nullable();
-            $table->boolean('status');
-            $table->boolean('availability_status');
+            $table->integer('status');
             $table->text('overview');
+            $table->float('rating')->nullable();
+            $table->string('origin_country')->nullable();
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
 
             $table->timestamp('disabled_at')->nullable();
             $table->string('reason')->nullable();

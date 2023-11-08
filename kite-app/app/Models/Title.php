@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Title_On_Service;
+use App\Models\Title_Has_Genre;
+use App\Models\Genre;
+use App\Models\User;
 
 class Title extends Model
 {
@@ -18,8 +21,8 @@ class Title extends Model
         'year',
         'poster_path',
         'backdrop_path',
+        'rating',
         'status',
-        'availability_status',
         'overview',
         'disabled_at',
         'reason',
@@ -27,5 +30,19 @@ class Title extends Model
 
     public function services(){
         return $this->hasMany(Title_On_Service::class, "title_id", "id");
+    }
+
+    public function genres(){
+        return $this->hasMany(Title_Has_Genre::class, "title_id", "id");
+    }
+
+    public function genresDirect()
+    {
+        return $this->belongsToMany(Genre::class, 'Title_Has_Genre', 'title_id', 'genre_id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+
     }
 }
