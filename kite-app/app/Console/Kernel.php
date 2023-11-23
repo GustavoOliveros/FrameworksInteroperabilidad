@@ -4,6 +4,10 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Http\Controllers\ChangesController;
+use Illuminate\Support\Facades\Log;
+use App\Models\ChangesLog;
+use Illuminate\Support\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -12,7 +16,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->call(function () {
+        //     $objChanges = new ChangesController;
+        //     $objChanges->perform(); 
+        // })->everySixHours();
+
+        // $schedule->call(function (){
+        //     $weekAgo = Carbon::now()->subWeek();
+        //     $logs = ChangesLog::where('created_at', '<', $weekAgo)->get();
+
+        //     $logs->each(function ($log) {
+        //         $log->delete();
+        //     });
+        // })->weekly();
     }
 
     /**

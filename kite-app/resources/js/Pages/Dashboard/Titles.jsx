@@ -5,7 +5,7 @@ import { createTheme } from "react-data-table-component";
 import { Button } from "@material-tailwind/react";
 import TextInput from "@/Components/TextInput";
 import { useState } from "react";
-import { PencilSquareIcon, MinusCircleIcon, PlusIcon, ArrowPathIcon, CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon, MinusCircleIcon, PlusIcon, ArrowPathIcon, CheckIcon, ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 import CreateTitleModal from "./partials/CreateTitleModal";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -130,6 +130,7 @@ export default function Titles({ titles, auth }) {
     // data provides access to your row data
     const ExpandedComponent = ({ data }) =>
         <div className="p-5 flex flex-col gap-3">
+            <p>TMDb ID: {data.tmdb_id}</p>
             <p>Título Original: {data.original_title}</p>
             <p>Año de lanzamiento: {data.year}</p>
             <p>Póster:&nbsp;&nbsp;
@@ -182,8 +183,6 @@ export default function Titles({ titles, auth }) {
                 console.log(error);
             });
     }
-
-
 
     return (
         <>

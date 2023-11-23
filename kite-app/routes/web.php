@@ -16,6 +16,9 @@ use App\Models\Playlist;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\HistoryController;
 use Psy\Command\HistoryCommand;
+use App\Http\Controllers\ChangesController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,20 +36,34 @@ Route::get('/popular', [TitleController::class, 'popular']);
 
 // Test
 Route::get('/test/{id}/{type}', [TitleController::class, 'getStreamingData']);
+Route::get('/test/pdf', function(){
+    return view('pdf/analytics', [
+        'title' => "pepepepe",
+        'data' => [
+            [
+                'pos' => 1,
+                'itemId' => 1,
+                'item' => 'caca',
+                'cantidad' => 23
+            ]
+        ]
+
+    ]);
+});
 
 // Guests
 Route::get('/', [HomeController::class, 'index']);
 
 // Users without services
-Route::group(['middleware' => ['no access app', 'auth', 'verified']], function(){
+Route::group(['middleware' => ['no access app', 'auth', 'verified']], function () {
     // Service selection
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
-    Route::post('/services-selection', [UserController::class,'addServices'])
+    Route::post('/services-selection', [UserController::class, 'addServices'])
         ->name('services-selection');
 });
 
 // All users, except those who have not selected their streaming services
-Route::group(['middleware' => ['access app', 'auth', 'verified']], function(){
+Route::group(['middleware' => ['access app', 'auth', 'verified']], function () {
     // Home
     Route::get('/home', [HomeController::class, 'indexHomepage'])
         ->name('home');
@@ -60,7 +77,7 @@ Route::group(['middleware' => ['access app', 'auth', 'verified']], function(){
     Route::get('/title/{id}', [TitleController::class, 'show'])->name('title.show');
     Route::get('/titles/{query}/API', [TitleController::class, 'getTitlesFromAPI'])->name('getTitlesFromAPI');
     Route::get('/add-title', [TitleController::class, 'showAddTitle'])->name('showAddTitle');
-    Route::post('add-title', [TitleController::class, 'storeUser'])->name('storeUser');
+    Route::post('/add-title', [TitleController::class, 'storeUser'])->name('storeUser');
 
     // Library
     Route::get('/your-library', [LibraryController::class, 'show'])->name('library');
@@ -80,16 +97,19 @@ Route::group(['middleware' => ['access app', 'auth', 'verified']], function(){
     Route::get('/genre/{id}', [GenreController::class, 'show'])->name('genres.show');
 
     // History
-    Route::get('/title/{id}/watch', [HistoryController::class, 'saveHistory'])->name('saveHistory');
+    Route::get('/title/{id}/{service}/watch', [HistoryController::class, 'saveHistory'])->name('saveHistory');
     Route::get('/your-history', [HistoryController::class, 'show'])->name('history');
 
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Reviews
+    Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/reviews/{titleId}', [ReviewController::class, 'getReviews'])->name('getReviews');
+
+    // 
+
+
 
     // Dashboard (admins & moderators)
-    Route::group(['middleware' => ['can:access dashboard']], function(){
+    Route::group(['middleware' => ['can:access dashboard']], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
@@ -108,7 +128,33 @@ Route::group(['middleware' => ['access app', 'auth', 'verified']], function(){
             ->middleware(['can:see titles'])->name('getAllLocalTitles');
         Route::get('/titles/{id}/accept', [TitleController::class, 'accept'])
             ->middleware(['can:edit titles'])->name('acceptTitle');
+
+        // CHANGES
+        Route::get('/changes/perform', [ChangesController::class, 'perform'])
+            ->middleware(['can:perform changes'])->name('performChanges');
+
+        Route::get('/changes', [ChangesController::class, 'show'])
+            ->middleware(['can:see changes log'])->name('changes.show');
+
+        Route::get('/changes/all', [ChangesController::class, 'index'])
+            ->middleware(['can:see changes log'])->name('changes.index');
+
+        Route::get('/changes/{id}', [ChangesController::class, 'showBody'])
+            ->middleware(['can:see changes log'])->name('changes.showbody');
+
+        // ANALYTICS
+        Route::get('/analytics', [AnalyticsController::class, 'index'])
+            ->middleware(['can:analytics'])->name('analytics');
+
+        Route::post('/analytics/perform', [AnalyticsController::class, 'perform'])
+            ->middleware(['can:analytics'])->name('analytics.perform');
+        
+        Route::get('/analytics/{file}/excel', [AnalyticsController::class, 'excel'])
+            ->middleware(['can:analytics'])->name('analytics.excel');
+        
+        Route::get('/analytics/{file}/pdf', [AnalyticsController::class, 'pdf'])
+            ->middleware(['can:analytics'])->name('analytics.pdf');
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

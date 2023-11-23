@@ -16,6 +16,7 @@ use Illuminate\Http\Client\RequestException;
 use App\Models\Title_On_Service;
 use App\Http\Requests\TitleRequest;
 use App\Http\Controllers\CountryFlagController;
+use App\Http\Controllers\ReviewController;
 
 class TitleController extends Controller
 {
@@ -50,7 +51,7 @@ class TitleController extends Controller
             $title = new Title();
 
             // Set the attributes based on the data in the request
-            $title->id = $request->input('id');
+            $title->tmdb_id = $request->input('media_type') . '/' . $request->input('id');
             $title->type = $request->input('media_type');
             $title->title = $request->input('title') ?? $request->input('name');
             $title->original_title = $request->input('original_title') ?? $request->input('original_name');
@@ -74,7 +75,7 @@ class TitleController extends Controller
             $title->genresDirect()->attach($genreIds);
 
             // Get streaming data
-            $services = $this->getStreamingData($request->input('id'), $request->input('media_type'));
+            $services = $this->getStreamingData($title->tmdb_id);
         
             // Attach streaming data
             if(isset($services['result']['streamingInfo']['ar']) && count($services['result']['streamingInfo']['ar']) > 0){
@@ -84,7 +85,6 @@ class TitleController extends Controller
                     if($service['streamingType'] == 'subscription'){
                         $titleService = new Title_On_Service();
 
-                        $title = Title::find($request->input('id'));
                         $titleService->title()->associate($title);
     
                         $localService = Service::where('id_name', $service['service'])->first();
@@ -155,8 +155,22 @@ class TitleController extends Controller
                                 where('user_id', Auth::user()->id)
                                 ->where('title_id', $id)->first();
                 $alreadySaved = ($userTitle) ? true : false;
+
+                $reviews = new ReviewController;
+
+                $reviews = $reviews->show($id);
     
-                return Inertia::render('Title/Title', ['title' => $title, 'services' => $services, 'alreadySaved' => $alreadySaved, 'genres' => $genres, 'flag' => $flagUrl]);
+                return Inertia::render
+                ('Title/Title',
+                        [
+                        'title' => $title,
+                        'services' => $services,
+                        'alreadySaved' => $alreadySaved,
+                        'genres' => $genres,
+                        'flag' => $flagUrl,
+                        'reviews' => $reviews
+                        ]
+                );
             }
         }
 
@@ -227,7 +241,7 @@ class TitleController extends Controller
         return response()->json($titles);
     }
 
-    public function getStreamingData($id, $type){
+    public function getStreamingData(string $tmdb_id){
         $response = [];
 
         $httpResponse = Http::withHeaders([
@@ -235,7 +249,7 @@ class TitleController extends Controller
             'X-RapidAPI-Key' => '68f1c519afmsh507f4877cb61cb3p15befejsn6aa174d81f5a',
             'content-type' => 'application/json'
         ])
-        ->get("https://streaming-availability.p.rapidapi.com/get?output_language=es&tmdb_id={$type}%2F{$id}");
+        ->get("https://streaming-availability.p.rapidapi.com/get?output_language=es&tmdb_id={$tmdb_id}");
 
         if ($httpResponse->successful()) {
             $response = $httpResponse->json();
@@ -261,7 +275,7 @@ class TitleController extends Controller
             $title = new Title();
 
             // Set the attributes based on the data in the request
-            $title->id = $request->input('id');
+            $title->tmdb_id = $request->input('media_type') . '/' . $request->input('id');
             $title->type = $request->input('media_type');
             $title->title = $request->input('title') ?? $request->input('name');
             $title->original_title = $request->input('original_title') ?? $request->input('original_name');
@@ -314,7 +328,7 @@ class TitleController extends Controller
             $title->save();
 
             // Get streaming data
-            $services = $this->getStreamingData($title->id, $title->type);
+            $services = $this->getStreamingData($title->tmdb_id);
         
             // Attach streaming data
             if(isset($services['result']['streamingInfo']['ar']) && count($services['result']['streamingInfo']['ar']) > 0){

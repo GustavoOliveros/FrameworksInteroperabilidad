@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -20,14 +21,25 @@ class HomeController extends Controller
             return redirect()->route('home');
         }
 
-        return Inertia::render('LandingPage');
+        $services = Service::all();
+
+        return Inertia::render('LandingPage', ['services' => $services]);
     }
 
     public function indexHomepage(){
         //  check if user has services
         $user = User::where('id',Auth::user()->id)->first();
         $services = $user->services;
-        $titles = Title::where('status', 1)->get()->take(20);
+        $titles = Title::where('status', 1)->take(20)->get()->map(function ($title) {
+            return [
+                'id' => $title->id,
+                'title' => $title->title,
+                'poster_path' => $title->poster_path,
+                'type' => $title->type,
+                'backdrop_path' => $title->backdrop_path,
+                'year' => $title->year
+            ];
+        });
         $servicesObjCol = [];
         
         foreach($services as $service){
